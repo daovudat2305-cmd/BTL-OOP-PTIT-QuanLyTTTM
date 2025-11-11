@@ -104,6 +104,7 @@ public class ProductViewMap extends javax.swing.JFrame {
           productController = new ProductController();
           shopController = new ShopController();
           loadProducts();
+          initComboPrice();
      }
      
      private void loadProducts() {
@@ -127,6 +128,50 @@ public class ProductViewMap extends javax.swing.JFrame {
            }
           
          // quan trọng: để JTable render ImageIcon
+     }
+     
+     private void loadProductsByPrice(double minPrice, double maxPrice) {
+          model.setRowCount(0);
+          List<Product> list = productController.getProductsByPrice(shopId, minPrice, maxPrice);
+          for (Product p : list) {
+               ImageIcon icon = null;
+               if (p.getImagePath() != null) {
+                   ImageIcon rawIcon = new ImageIcon(p.getImagePath());
+                   Image scaled = rawIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH); // thumbnail
+                   icon = new ImageIcon(scaled);
+               }
+               model.addRow(new Object[]{
+                   p.getName(),
+                   p.getPrice(),
+                   icon
+               });
+         }
+          if (model.getRowCount() == 0) {
+               clearDetail(); // bảng rỗng thì xóa chi tiết
+           }
+          
+         // quan trọng: để JTable render ImageIcon
+     }
+     
+     private void initComboPrice(){
+          String s1 = "<=10000";
+          String s2 = "10000 - 50000";
+          String s3 = "50000 - 100000";
+          String s4 = "100000 - 150000";
+          String s5 = "150000 - 200000";
+          String s6 = "200000 - 250000";
+          String s7 = "250000 - 300000";
+          String s8 = ">=300000";
+          cboPrice.addItem(s1);
+          cboPrice.addItem(s2);
+          cboPrice.addItem(s3);
+          cboPrice.addItem(s4);
+          cboPrice.addItem(s5);
+          cboPrice.addItem(s6);
+          cboPrice.addItem(s7);
+          cboPrice.addItem(s8);
+          
+          cboPrice.setSelectedItem(s1);
      }
      
      private void clearDetail() {
@@ -179,6 +224,11 @@ public class ProductViewMap extends javax.swing.JFrame {
           jLabel2 = new javax.swing.JLabel();
           btnExitToMenu = new custom.Button();
           btnUpdate = new custom.Button();
+          jPanel3 = new javax.swing.JPanel();
+          jLabel6 = new javax.swing.JLabel();
+          cboPrice = new javax.swing.JComboBox<>();
+          btnFilter = new custom.Button();
+          btnAll = new custom.Button();
 
           setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
           setSize(new java.awt.Dimension(1050, 650));
@@ -298,7 +348,7 @@ public class ProductViewMap extends javax.swing.JFrame {
                          .addGroup(jPanel2Layout.createSequentialGroup()
                               .addGap(159, 159, 159)
                               .addComponent(jLabel5)))
-                    .addContainerGap(242, Short.MAX_VALUE))
+                    .addContainerGap(55, Short.MAX_VALUE))
           );
           jPanel2Layout.setVerticalGroup(
                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -348,6 +398,61 @@ public class ProductViewMap extends javax.swing.JFrame {
                }
           });
 
+          jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+          jLabel6.setText("Lọc theo giá");
+
+          cboPrice.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+          btnFilter.setBackground(new java.awt.Color(0, 153, 255));
+          btnFilter.setForeground(new java.awt.Color(255, 255, 255));
+          btnFilter.setText("Lọc");
+          btnFilter.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+          btnFilter.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnFilterActionPerformed(evt);
+               }
+          });
+
+          btnAll.setBackground(new java.awt.Color(0, 153, 255));
+          btnAll.setForeground(new java.awt.Color(255, 255, 255));
+          btnAll.setText("Tất cả");
+          btnAll.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+          btnAll.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnAllActionPerformed(evt);
+               }
+          });
+
+          javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+          jPanel3.setLayout(jPanel3Layout);
+          jPanel3Layout.setHorizontalGroup(
+               jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(17, 17, 17)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                         .addGroup(jPanel3Layout.createSequentialGroup()
+                              .addGap(16, 16, 16)
+                              .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                              .addGap(18, 18, 18)
+                              .addComponent(btnAll, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                         .addComponent(jLabel6)
+                         .addComponent(cboPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(31, Short.MAX_VALUE))
+          );
+          jPanel3Layout.setVerticalGroup(
+               jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(40, 40, 40)
+                    .addComponent(jLabel6)
+                    .addGap(18, 18, 18)
+                    .addComponent(cboPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                         .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addComponent(btnAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+          );
+
           javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
           jPanel1.setLayout(jPanel1Layout);
           jPanel1Layout.setHorizontalGroup(
@@ -359,22 +464,27 @@ public class ProductViewMap extends javax.swing.JFrame {
                               .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                               .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                              .addContainerGap(59, Short.MAX_VALUE)
+                              .addContainerGap(74, Short.MAX_VALUE)
                               .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                   .addGroup(jPanel1Layout.createSequentialGroup()
+                                   .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(btnExitToMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(293, 293, 293)
+                                        .addGap(300, 300, 300)
                                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                   .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(29, 29, 29)
+                                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(28, 28, 28))
+                                   .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 858, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                              .addGap(21, 21, 21)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap())
           );
@@ -386,7 +496,9 @@ public class ProductViewMap extends javax.swing.JFrame {
                          .addGroup(jPanel1Layout.createSequentialGroup()
                               .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                               .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                              .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                              .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                   .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                   .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                          .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -521,6 +633,28 @@ public class ProductViewMap extends javax.swing.JFrame {
           }
      }//GEN-LAST:event_btnUpdateActionPerformed
 
+     private void btnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllActionPerformed
+          loadProducts();
+     }//GEN-LAST:event_btnAllActionPerformed
+
+     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
+          String s = cboPrice.getSelectedItem().toString();
+          if(s.charAt(0)=='<'){
+               double maxPrice = Double.parseDouble(s.substring(2));
+               loadProductsByPrice(0, maxPrice);
+          }
+          else if(s.charAt(0)=='>'){
+               double minPrice = Double.parseDouble(s.substring(2));
+               loadProductsByPrice(minPrice, Double.MAX_VALUE);
+          }
+          else{
+               String[] lst = s.split("-");
+               double minPrice = Double.parseDouble(lst[0].trim());
+               double maxPrice = Double.parseDouble(lst[1].trim());
+               loadProductsByPrice(minPrice, maxPrice);
+          }
+     }//GEN-LAST:event_btnFilterActionPerformed
+
      private void tableProductMouseClicked(java.awt.event.MouseEvent evt) {                                        
           int row = tableProduct.getSelectedRow();
           if (row >= 0) {
@@ -592,17 +726,22 @@ public class ProductViewMap extends javax.swing.JFrame {
      // Variables declaration - do not modify//GEN-BEGIN:variables
      private custom.Background background1;
      private custom.Button btnAdd;
+     private custom.Button btnAll;
      private custom.Button btnDelete;
      private custom.Button btnExit;
      private custom.Button btnExitToMenu;
+     private custom.Button btnFilter;
      private custom.Button btnUpdate;
+     private javax.swing.JComboBox<String> cboPrice;
      private javax.swing.JLabel jLabel1;
      private javax.swing.JLabel jLabel2;
      private javax.swing.JLabel jLabel3;
      private javax.swing.JLabel jLabel4;
      private javax.swing.JLabel jLabel5;
+     private javax.swing.JLabel jLabel6;
      private javax.swing.JPanel jPanel1;
      private javax.swing.JPanel jPanel2;
+     private javax.swing.JPanel jPanel3;
      private javax.swing.JScrollPane jScrollPane1;
      private javax.swing.JScrollPane jScrollPane2;
      private javax.swing.JLabel lblImageDetail;

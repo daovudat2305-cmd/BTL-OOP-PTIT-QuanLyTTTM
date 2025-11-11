@@ -28,6 +28,31 @@ public class ProductDAO {
           return products;
      }
      
+     //lọc sản phẩm theo giá
+     public List<Product> getProductsByPrice(int shopId, double minPrice, double maxPrice){
+          List<Product> products = new ArrayList<>();
+          try(Connection conn = DBConnection.getConnection()) {
+               String sql = "SELECT * FROM product WHERE shop_id=? AND price>=? AND price<=?";
+               PreparedStatement stmt = conn.prepareStatement(sql);
+               stmt.setInt(1, shopId);
+               stmt.setDouble(2, minPrice);
+               stmt.setDouble(3, maxPrice);
+               ResultSet rs = stmt.executeQuery();
+               while(rs.next()){
+                    products.add(new Product(
+                         rs.getString("name"),
+                         rs.getDouble("price"),
+                         rs.getString("image_path"),
+                         rs.getInt("shop_id"),
+                         rs.getString("description")
+                    ));
+               }
+          } catch (Exception e) {
+               e.printStackTrace();
+          }
+          return products;
+     }
+     
      public boolean addProduct(Product product){
           try(Connection conn = DBConnection.getConnection()) {
                String sql = "INSERT INTO product(name, price, image_path, shop_id, description) VALUES(?,?,?,?,?)";

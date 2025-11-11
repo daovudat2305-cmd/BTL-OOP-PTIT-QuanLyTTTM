@@ -32,7 +32,7 @@ public class RevenueView extends javax.swing.JFrame {
 
          // Năm
          int currentYear = LocalDate.now().getYear();
-         for (int y = currentYear - 15; y <= currentYear + 15; y++) {
+         for (int y = currentYear - 5; y <= currentYear + 10; y++) {
              cboYear.addItem(String.valueOf(y));
          }
 

@@ -203,6 +203,19 @@ public class TenantDAO {
          return false;
     }
 
+    public boolean existsByEmail(String email){
+        String sql = "SELECT 1 FROM tenant WHERE email = ? LIMIT 1";
+         try (Connection conn = DBConnection.getConnection()){
+               PreparedStatement ps = conn.prepareStatement(sql);
+               ps.setString(1, email);
+               ResultSet rs = ps.executeQuery();
+               return rs.next();
+         } catch (Exception e) {
+              e.printStackTrace();
+         }
+         return false;
+    }
+    
     public boolean existsByPassword(String password){
         String sql = "SELECT 1 FROM tenant WHERE password = ? LIMIT 1";
          try (Connection conn = DBConnection.getConnection()){

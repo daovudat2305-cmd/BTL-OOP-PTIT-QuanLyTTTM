@@ -7,6 +7,7 @@ import Model.ContractDAO;
 import Controller.ShopController;
 import Controller.TenantController;
 import Controller.AccountController;
+import java.time.LocalDate;
 
 public class NewContractDialog extends javax.swing.JDialog {
     
@@ -17,48 +18,80 @@ public class NewContractDialog extends javax.swing.JDialog {
     private TenantController tenantController = new TenantController();
     private AccountController accountController = new AccountController();
     
-    private void reloadShopIdCombo() {
-    try {
-        cbShopId.removeAllItems();
-        java.util.List<Integer> free = ContractDAO.listFreeShopIds();
-        for (Integer id : free) {
-            cbShopId.addItem(String.valueOf(id)); // cbShopId là JComboBox<String>
-        }
-        boolean empty = free.isEmpty();
-        cbShopId.setEnabled(!empty);
-        if (btnSave != null) btnSave.setEnabled(!empty);
-        if (empty) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Không còn shop trống trong phạm vi 1–7.",
-                "Thông báo", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-        }
-    } catch (Exception ex) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Lỗi tải danh sách shop: " + ex.getMessage(),
-            "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
-    }
-}
+    
     public NewContractDialog(java.awt.Frame parent, boolean modal) {
-       super(parent, modal);
-    initComponents();
-    setTitle("New Contract");
-    setLocationRelativeTo(parent);
+          super(parent, modal);
+          initComponents();
+          setTitle("New Contract");
+          setLocationRelativeTo(parent);
 
-    // Shop ID: 1..7
-    cbShopId.setModel(new javax.swing.DefaultComboBoxModel<>(
-        new String[]{"1","2","3","4","5","6","7"}
-    ));
-    cbShopId.setSelectedIndex(-1); // chưa chọn gì
+          // Shop ID: 1..7
+          cbShopId.setModel(new javax.swing.DefaultComboBoxModel<>(
+              new String[]{"1","2","3","4","5","6","7"}
+          ));
+          cbShopId.setSelectedIndex(-1); // chưa chọn gì
 
-    // Status: đúng ENUM trong DB
-    cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(
-        new String[]{"active"}
-    ));
+          // Status: đúng ENUM trong DB
+          cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(
+              new String[]{"active"}
+          ));
 
-    clearForm(); // bắt đầu ở trạng thái trống
-    reloadShopIdCombo();
+          clearForm(); // bắt đầu ở trạng thái trống
+          reloadShopIdCombo();
+          initComboDate();
     }
 
+    private void reloadShopIdCombo() {
+          try {
+              cbShopId.removeAllItems();
+              java.util.List<Integer> free = ContractDAO.listFreeShopIds();
+              for (Integer id : free) {
+                  cbShopId.addItem(String.valueOf(id)); // cbShopId là JComboBox<String>
+              }
+              boolean empty = free.isEmpty();
+              cbShopId.setEnabled(!empty);
+              if (btnSave != null) btnSave.setEnabled(!empty);
+              if (empty) {
+                  javax.swing.JOptionPane.showMessageDialog(this,
+                      "Trung tâm còn còn shop trống để thuê!.",
+                      "Thông báo", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+              }
+          } catch (Exception ex) {
+              javax.swing.JOptionPane.showMessageDialog(this,
+                  "Lỗi tải danh sách shop: " + ex.getMessage(),
+                  "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
+          }
+      }
+    
+    private void initComboDate(){
+         //Ngày
+         for(int i=1; i<=31; i++){
+              cboStartDay.addItem(String.valueOf(i));
+              cboEndDay.addItem(String.valueOf(i));
+         }
+         
+         // Tháng
+         for (int i = 1; i <= 12; i++) {
+               cboStartMonth.addItem(String.valueOf(i));
+               cboEndMonth.addItem(String.valueOf(i));
+         }
+
+         // Năm
+         int currentYear = LocalDate.now().getYear();
+         for (int y = currentYear; y <= currentYear + 10; y++) {
+               cboStartYear.addItem(String.valueOf(y));
+               cboEndYear.addItem(String.valueOf(y));
+         }
+
+         cboStartDay.setSelectedItem(String.valueOf(LocalDate.now().getDayOfMonth()));
+         cboStartMonth.setSelectedItem(String.valueOf(LocalDate.now().getMonthValue()));
+         cboStartYear.setSelectedItem(String.valueOf(currentYear));
+         
+         cboEndDay.setSelectedItem(String.valueOf(LocalDate.now().getDayOfMonth()));
+         cboEndMonth.setSelectedItem(String.valueOf(LocalDate.now().getMonthValue()));
+         cboEndYear.setSelectedItem(String.valueOf(currentYear));
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,8 +115,6 @@ public class NewContractDialog extends javax.swing.JDialog {
           txtName = new javax.swing.JTextField();
           txtPhone = new javax.swing.JTextField();
           txtEmail = new javax.swing.JTextField();
-          txtStart = new javax.swing.JTextField();
-          txtEnd = new javax.swing.JTextField();
           txtIncome = new javax.swing.JTextField();
           cbStatus = new javax.swing.JComboBox<>();
           jLabel10 = new javax.swing.JLabel();
@@ -95,6 +126,12 @@ public class NewContractDialog extends javax.swing.JDialog {
           jLabel12 = new javax.swing.JLabel();
           jLabel13 = new javax.swing.JLabel();
           txtShopName = new javax.swing.JTextField();
+          cboStartDay = new javax.swing.JComboBox<>();
+          cboStartMonth = new javax.swing.JComboBox<>();
+          cboStartYear = new javax.swing.JComboBox<>();
+          cboEndDay = new javax.swing.JComboBox<>();
+          cboEndMonth = new javax.swing.JComboBox<>();
+          cboEndYear = new javax.swing.JComboBox<>();
 
           setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -116,10 +153,10 @@ public class NewContractDialog extends javax.swing.JDialog {
           jLabel5.setText("Email:  ");
 
           jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-          jLabel6.setText("Ngày bắt đầu (YYYY-MM-DD):");
+          jLabel6.setText("Ngày bắt đầu:");
 
           jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-          jLabel7.setText("Ngày kết thúc (YYYY-MM-DD):");
+          jLabel7.setText("Ngày kết thúc:");
 
           jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
           jLabel8.setText("Tiền thuê hàng tháng:");
@@ -135,10 +172,6 @@ public class NewContractDialog extends javax.swing.JDialog {
           txtPhone.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
           txtEmail.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-
-          txtStart.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-
-          txtEnd.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
           txtIncome.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
@@ -209,17 +242,9 @@ public class NewContractDialog extends javax.swing.JDialog {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtShopName))
                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                  .addComponent(jLabel9)
-                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                  .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jLabel9)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                             .addComponent(txtStart, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                             .addComponent(txtEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -255,7 +280,26 @@ public class NewContractDialog extends javax.swing.JDialog {
                               .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                               .addGap(18, 18, 18)
                               .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                              .addGap(20, 20, 20))))
+                              .addGap(20, 20, 20))
+                         .addGroup(layout.createSequentialGroup()
+                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                   .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cboStartDay, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                   .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cboEndDay, 0, 1, Short.MAX_VALUE)))
+                              .addGap(12, 12, 12)
+                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                   .addComponent(cboEndMonth, 0, 1, Short.MAX_VALUE)
+                                   .addComponent(cboStartMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                   .addComponent(cboStartYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addComponent(cboEndYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                              .addGap(120, 120, 120))))
           );
           layout.setVerticalGroup(
                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,12 +340,16 @@ public class NewContractDialog extends javax.swing.JDialog {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                          .addComponent(jLabel6)
-                         .addComponent(txtStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                         .addComponent(cboStartDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addComponent(cboStartMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addComponent(cboStartYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                          .addComponent(jLabel7)
-                         .addComponent(txtEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(22, 22, 22)
+                         .addComponent(cboEndDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addComponent(cboEndMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addComponent(cboEndYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(23, 23, 23)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                          .addComponent(jLabel8)
                          .addComponent(txtIncome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -321,15 +369,8 @@ public class NewContractDialog extends javax.swing.JDialog {
      }// </editor-fold>//GEN-END:initComponents
      public int createdId = -1;
      private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-          txtTenantId.setText("");
-          cbShopId.setSelectedIndex(-1);
-          txtName.setText("");
-          txtPhone.setText("");
-          txtEmail.setText("");
-          txtType.setText("");
-          txtStart.setText("");
-          txtEnd.setText("");
-          txtIncome.setText("");
+          clearForm();
+          reloadShopIdCombo();
           cbStatus.setSelectedIndex(0); // chọn lại 'active'
 
           // Đưa con trỏ vào ô tenant để nhập ngay
@@ -349,8 +390,6 @@ public class NewContractDialog extends javax.swing.JDialog {
               throw new IllegalArgumentException("tên Shop không được trống");
           if (txtType.getText().trim().isEmpty())
               throw new IllegalArgumentException("Loại hình không được trống");
-          if (txtStart.getText().trim().isEmpty() || txtEnd.getText().trim().isEmpty())
-              throw new IllegalArgumentException("Start/End date không được trống");
           if (txtIncome.getText().trim().isEmpty())
               throw new IllegalArgumentException("Income không được trống");
           if(tenantController.existsById(Integer.parseInt(txtTenantId.getText())))
@@ -378,16 +417,18 @@ public class NewContractDialog extends javax.swing.JDialog {
           x.shopName  = txtShopName.getText().trim();
           x.type      = txtType.getText().trim();
 
-          // ngày: bắt buộc yyyy-MM-dd
-          x.startDate = java.sql.Date.valueOf(txtStart.getText().trim());
-          x.endDate   = java.sql.Date.valueOf(txtEnd.getText().trim());
+          // ngày: 
+          String start = cboStartYear.getSelectedItem().toString() + "-" + cboStartMonth.getSelectedItem().toString() + "-" + cboStartDay.getSelectedItem().toString();
+          String end = cboEndYear.getSelectedItem().toString() + "-" + cboEndMonth.getSelectedItem().toString() + "-" + cboEndDay.getSelectedItem().toString();
+          x.startDate = java.sql.Date.valueOf(start);
+          x.endDate   = java.sql.Date.valueOf(end);
           
           //ngày hiện tại
           java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
           
-          //start_date phải >= ngày hôm nay
+          //start_date phải > ngày hôm nay
           if(x.startDate.before(today)){
-               throw new IllegalArgumentException("start_date phải sau hoặc bằng hôm nay");
+               throw new IllegalArgumentException("start_date phải sau hôm nay");
           }
           
           //end_date phải lớn hơn start_date
@@ -423,6 +464,13 @@ public class NewContractDialog extends javax.swing.JDialog {
           javax.swing.JOptionPane.showMessageDialog(this,
                   "Đã lưu! contract_id = " + createdId);
 
+          //Reset lại 
+          clearForm();
+          reloadShopIdCombo();
+          cbStatus.setSelectedIndex(0); // chọn lại 'active'
+
+          // Đưa con trỏ vào ô tenant để nhập ngay
+          txtTenantId.requestFocus();
           // Tùy chọn:
           // - Nếu muốn nhập tiếp → gọi btnAddActionPerformed(null);
           // - Nếu muốn đóng luôn dialog sau khi lưu:
@@ -489,6 +537,12 @@ public class NewContractDialog extends javax.swing.JDialog {
      private custom.Button btnSave;
      private javax.swing.JComboBox<String> cbShopId;
      private javax.swing.JComboBox<String> cbStatus;
+     private javax.swing.JComboBox<String> cboEndDay;
+     private javax.swing.JComboBox<String> cboEndMonth;
+     private javax.swing.JComboBox<String> cboEndYear;
+     private javax.swing.JComboBox<String> cboStartDay;
+     private javax.swing.JComboBox<String> cboStartMonth;
+     private javax.swing.JComboBox<String> cboStartYear;
      private javax.swing.JLabel jLabel1;
      private javax.swing.JLabel jLabel10;
      private javax.swing.JLabel jLabel11;
@@ -503,12 +557,10 @@ public class NewContractDialog extends javax.swing.JDialog {
      private javax.swing.JLabel jLabel8;
      private javax.swing.JLabel jLabel9;
      private javax.swing.JTextField txtEmail;
-     private javax.swing.JTextField txtEnd;
      private javax.swing.JTextField txtIncome;
      private javax.swing.JTextField txtName;
      private javax.swing.JTextField txtPhone;
      private javax.swing.JTextField txtShopName;
-     private javax.swing.JTextField txtStart;
      private javax.swing.JTextField txtTenantId;
      private javax.swing.JTextField txtType;
      // End of variables declaration//GEN-END:variables
@@ -519,8 +571,6 @@ public class NewContractDialog extends javax.swing.JDialog {
     txtName.setText("");
     txtPhone.setText("");
     txtEmail.setText("");
-    txtStart.setText("");
-    txtEnd.setText("");
     txtIncome.setText("");
     txtType.setText("");
 
@@ -528,7 +578,7 @@ public class NewContractDialog extends javax.swing.JDialog {
     if (cbShopId.getItemCount() > 0) cbShopId.setSelectedIndex(-1);
 
     // Nếu bạn muốn model là các trạng thái trong DB:
-    // cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "active", "expired", "terminated" }));
+    // cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "active" }));
     if (cbStatus.getItemCount() > 0) cbStatus.setSelectedIndex(-1);
 }
 

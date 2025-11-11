@@ -5,6 +5,7 @@ import Model.Contract;
 import Model.ContractDAO;
 import Controller.ContractController;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,8 +22,31 @@ public class ExtendContractDialog extends javax.swing.JDialog {
           initComponents();
           
           setLocationRelativeTo(null);
+          initComboDate();
      }
 
+     private void initComboDate(){
+         //Ngày
+         for(int i=1; i<=31; i++){
+              cboDay.addItem(String.valueOf(i));
+         }
+         
+         // Tháng
+         for (int i = 1; i <= 12; i++) {
+               cboMonth.addItem(String.valueOf(i));
+         }
+
+         // Năm
+         int currentYear = LocalDate.now().getYear();
+         for (int y = currentYear; y <= currentYear + 10; y++) {
+               cboYear.addItem(String.valueOf(y));
+         }
+
+         cboDay.setSelectedItem(String.valueOf(LocalDate.now().getDayOfMonth()));
+         cboMonth.setSelectedItem(String.valueOf(LocalDate.now().getMonthValue()));
+         cboYear.setSelectedItem(String.valueOf(currentYear));
+    }
+     
      /**
       * This method is called from within the constructor to initialize the
       * form. WARNING: Do NOT modify this code. The content of this method is
@@ -40,7 +64,9 @@ public class ExtendContractDialog extends javax.swing.JDialog {
           jLabel4 = new javax.swing.JLabel();
           jLabel5 = new javax.swing.JLabel();
           txtContractId = new javax.swing.JTextField();
-          txtExtend = new javax.swing.JTextField();
+          cboDay = new javax.swing.JComboBox<>();
+          cboMonth = new javax.swing.JComboBox<>();
+          cboYear = new javax.swing.JComboBox<>();
 
           setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,11 +102,9 @@ public class ExtendContractDialog extends javax.swing.JDialog {
           jLabel4.setText("Mã hợp đồng");
 
           jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-          jLabel5.setText("Ngày gia hạn (yyyy-mm-dd)");
+          jLabel5.setText("Ngày gia hạn");
 
           txtContractId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
-          txtExtend.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
           javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
           getContentPane().setLayout(layout);
@@ -101,7 +125,11 @@ public class ExtendContractDialog extends javax.swing.JDialog {
                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtExtend, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(cboDay, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cboMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cboYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -112,7 +140,7 @@ public class ExtendContractDialog extends javax.swing.JDialog {
                          .addGroup(layout.createSequentialGroup()
                               .addGap(83, 83, 83)
                               .addComponent(jLabel3)))
-                    .addContainerGap(52, Short.MAX_VALUE))
+                    .addContainerGap(85, Short.MAX_VALUE))
           );
           layout.setVerticalGroup(
                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,8 +159,10 @@ public class ExtendContractDialog extends javax.swing.JDialog {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                          .addComponent(jLabel5)
-                         .addComponent(txtExtend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                         .addComponent(cboDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addComponent(cboMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addComponent(cboYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                          .addComponent(btnSava, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                          .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -161,20 +191,15 @@ public class ExtendContractDialog extends javax.swing.JDialog {
                  if (confirm == JOptionPane.YES_OPTION) {
                     String status = c.getStatus();
                     if(status.equals("terminated")){
-                         String extend = txtExtend.getText().trim();
-                         if(extend.isEmpty()){
-                              JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày gia hạn");
+                         String extend = cboYear.getSelectedItem().toString() + "-" + cboMonth.getSelectedItem().toString() + "-" + cboDay.getSelectedItem().toString();
+                         java.sql.Date giahan = java.sql.Date.valueOf(extend);
+                         if(giahan.before(c.getEndDate())){
+                              JOptionPane.showMessageDialog(this, "Gia hạn phải sau ngày kết thúc!");
                          }
                          else{
-                              java.sql.Date giahan = java.sql.Date.valueOf(extend);
-                              if(giahan.before(c.getEndDate())){
-                                   JOptionPane.showMessageDialog(this, "Gia hạn phải sau ngày kết thúc!");
-                              }
-                              else{
-                                   contractController.extendContract(contractId, giahan);
+                              contractController.extendContract(contractId, giahan);
 
-                                   JOptionPane.showMessageDialog(this, "Gia hạn thành công!");
-                              }
+                              JOptionPane.showMessageDialog(this, "Gia hạn thành công!");
                          }
                     }
                     else{
@@ -184,8 +209,9 @@ public class ExtendContractDialog extends javax.swing.JDialog {
                  }
                  else JOptionPane.showMessageDialog(this, "Gia hạn thất bại!");   
                  txtContractId.setText("");
-                 txtExtend.setText("");
-               } else {
+                 initComboDate();
+               }
+               else{
                    JOptionPane.showMessageDialog(this, "Không tìm thấy hợp đồng!");
                }
            } catch (Exception ex) {
@@ -238,12 +264,14 @@ public class ExtendContractDialog extends javax.swing.JDialog {
      // Variables declaration - do not modify//GEN-BEGIN:variables
      private custom.Button btnCancel;
      private custom.Button btnSava;
+     private javax.swing.JComboBox<String> cboDay;
+     private javax.swing.JComboBox<String> cboMonth;
+     private javax.swing.JComboBox<String> cboYear;
      private javax.swing.JLabel jLabel1;
      private javax.swing.JLabel jLabel2;
      private javax.swing.JLabel jLabel3;
      private javax.swing.JLabel jLabel4;
      private javax.swing.JLabel jLabel5;
      private javax.swing.JTextField txtContractId;
-     private javax.swing.JTextField txtExtend;
      // End of variables declaration//GEN-END:variables
 }

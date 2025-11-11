@@ -12,6 +12,10 @@ public class ProductController {
           return productDAO.getProductsByShopId(shopId);
      }
      
+     public List<Product> getProductsByPrice(int shopId, double minPrice, double maxPrice){
+          return productDAO.getProductsByPrice(shopId, minPrice, maxPrice);
+     }
+     
      public boolean addProduct(Product product){
           return productDAO.addProduct(product);
      }
