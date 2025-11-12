@@ -1,8 +1,13 @@
 
 package View;
 
+import Controller.ExtendController;
+import Controller.TenantController;
 import Controller.AccountController;
 import Model.Session;
+import Model.Contract;
+import Model.ContractDAO;
+import Model.Tenant;
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,6 +15,9 @@ public class MainView_Tenant extends javax.swing.JFrame {
 
      private JPanel contentPanel;
      private JLabel logoLabel;
+     
+     private TenantController tenantController = new TenantController();
+     private ExtendController extendController = new ExtendController();
      
      public MainView_Tenant() {
           initComponents();
@@ -40,6 +48,7 @@ public class MainView_Tenant extends javax.swing.JFrame {
           menu.add(infoItem);
           menu.add(mapItem);
 
+          
           menuBar.add(menu);
 
           // ====== Logout Button next to Menu ======
@@ -73,9 +82,54 @@ public class MainView_Tenant extends javax.swing.JFrame {
               new ChangePassWordDialog(this,true).setVisible(true);
           });
           
+          
+          //Thông báo
+          JLabel lblAlert = new JLabel("              Hợp đồng của bạn sắp hết hạn!!!   ");
+          lblAlert.setFont(new Font("Segoe UI", Font.BOLD, 15)); 
+          lblAlert.setForeground(new Color(244, 67, 54));
+          lblAlert.setPreferredSize(new Dimension(100, 40));
+          
+          //yêu cầu gia hạn hợp đồng
+          JButton extendContractButton = new JButton("Yêu cầu gia hạn");
+          extendContractButton.setFont(new Font("Segoe UI", Font.BOLD, 15)); 
+          extendContractButton.setPreferredSize(new Dimension(100, 40));
+          extendContractButton.addActionListener(e -> {
+              int confirm = JOptionPane.showConfirmDialog(
+                      this,
+                      "Bạn có chắc muốn yêu cầu gia hạn hợp đồng?",
+                      "Thông báo",
+                      JOptionPane.YES_NO_OPTION
+              );
+              if (confirm == JOptionPane.YES_OPTION) {
+                    int tenantId = Session.getCurrentTenantId();
+                    Tenant curTenant = tenantController.getTenant(tenantId);
+                    
+                    if(extendController.setStatusById(curTenant.getContractId(), "yes")){
+                         JOptionPane.showMessageDialog(null, "Bạn đã yêu cầu gia hạn!");
+                    }
+                    else{
+                         JOptionPane.showMessageDialog(null, "Yêu cầu thất bại!");
+                    }                   
+                  
+              }
+              
+          });
+          
           menuBar.add(changePassWordButton);
           menuBar.add(logoutButton);
+          menuBar.add(lblAlert);
+          menuBar.add(extendContractButton);
+          
 
+          //hiện thị thông báo nếu sắp hết hạn
+          int tenantId = Session.getCurrentTenantId();
+          
+          Contract contract = ContractDAO.findByTenantId(tenantId);
+          if(contract.getStatus().equals("active")){
+               lblAlert.setVisible(false);
+               extendContractButton.setVisible(false);
+          }
+          
           setJMenuBar(menuBar);
 
           // ====== Main Panel ======
@@ -119,6 +173,7 @@ public class MainView_Tenant extends javax.swing.JFrame {
           new MapView().setVisible(true);
           dispose();
       }
+      
      
      @SuppressWarnings("unchecked")
      // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

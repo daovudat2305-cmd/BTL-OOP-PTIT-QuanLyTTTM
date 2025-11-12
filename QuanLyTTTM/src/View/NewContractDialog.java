@@ -571,6 +571,7 @@ public class NewContractDialog extends javax.swing.JDialog {
     txtName.setText("");
     txtPhone.setText("");
     txtEmail.setText("");
+    txtShopName.setText("");
     txtIncome.setText("");
     txtType.setText("");
 

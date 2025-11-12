@@ -8,6 +8,7 @@ import Model.Contract;
 import Model.ContractDAO;
 import Controller.ShopController;
 import Controller.TenantController;
+import java.awt.Color;
 
 public class ContractDialog extends javax.swing.JDialog {
 
@@ -56,6 +57,16 @@ public class ContractDialog extends javax.swing.JDialog {
                lblStartDate.setText(c.getStartDate().toString());
                lblEndDate.setText(c.getEndDate().toString());
                lblRental.setText(c.getIncome().toString() + " VNĐ");
+               
+               String status = c.getStatus();
+               if(status.equals("active")){
+                    lblStatus.setForeground(new Color(76, 175, 80));
+                    lblStatus.setText("Còn hạn");
+               }
+               else{
+                    lblStatus.setForeground(new Color(255, 193, 7));
+                    lblStatus.setText("Sắp hết hạn");
+               }
           }
      }
      
@@ -100,6 +111,8 @@ public class ContractDialog extends javax.swing.JDialog {
           jLabel13 = new javax.swing.JLabel();
           jLabel14 = new javax.swing.JLabel();
           lblArea = new javax.swing.JLabel();
+          jLabel19 = new javax.swing.JLabel();
+          lblStatus = new javax.swing.JLabel();
 
           setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -125,10 +138,10 @@ public class ContractDialog extends javax.swing.JDialog {
           jLabel18.setText("Tiền thuê hàng tháng:");
 
           lblAdmin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-          lblAdmin.setText("AD");
+          lblAdmin.setText("ADMIN");
 
           lblSDTAdmin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-          lblSDTAdmin.setText("0363636363");
+          lblSDTAdmin.setText("0999888777");
 
           lblEmailAdmin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
           lblEmailAdmin.setText("adminTTTM@gmail.com");
@@ -196,6 +209,11 @@ public class ContractDialog extends javax.swing.JDialog {
           jLabel14.setText("Khu vực:");
 
           lblArea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+          jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+          jLabel19.setText("Trạng thái:");
+
+          lblStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
           javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
           getContentPane().setLayout(layout);
@@ -279,8 +297,12 @@ public class ContractDialog extends javax.swing.JDialog {
                                         .addGroup(layout.createSequentialGroup()
                                              .addComponent(jLabel12)
                                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                             .addComponent(lblEmailTenant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                    .addContainerGap(35, Short.MAX_VALUE))
+                                             .addComponent(lblEmailTenant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                   .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel19)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addContainerGap(38, Short.MAX_VALUE))
           );
           layout.setVerticalGroup(
                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,7 +333,7 @@ public class ContractDialog extends javax.swing.JDialog {
                               .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                               .addComponent(jLabel7))
                          .addGroup(layout.createSequentialGroup()
-                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                               .addComponent(lblSDTAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -342,7 +364,7 @@ public class ContractDialog extends javax.swing.JDialog {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                          .addComponent(jLabel14)
                          .addComponent(lblArea, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                    .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                          .addGroup(layout.createSequentialGroup()
                               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -355,7 +377,11 @@ public class ContractDialog extends javax.swing.JDialog {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                          .addComponent(jLabel18)
                          .addComponent(lblRental, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(14, 14, 14)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                         .addComponent(jLabel19)
+                         .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(23, 23, 23))
           );
@@ -421,6 +447,7 @@ public class ContractDialog extends javax.swing.JDialog {
      private javax.swing.JLabel jLabel16;
      private javax.swing.JLabel jLabel17;
      private javax.swing.JLabel jLabel18;
+     private javax.swing.JLabel jLabel19;
      private javax.swing.JLabel jLabel2;
      private javax.swing.JLabel jLabel20;
      private javax.swing.JLabel jLabel3;
@@ -441,6 +468,7 @@ public class ContractDialog extends javax.swing.JDialog {
      private javax.swing.JLabel lblSDTTenant;
      private javax.swing.JLabel lblShop;
      private javax.swing.JLabel lblStartDate;
+     private javax.swing.JLabel lblStatus;
      private javax.swing.JLabel lblTenantName;
      // End of variables declaration//GEN-END:variables
 }

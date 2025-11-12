@@ -84,6 +84,15 @@ public class TenantView extends javax.swing.JFrame {
                            lblStartDate.setText(contract.getStartDate().toString());
                            lblEndDate.setText(contract.getEndDate().toString());
                            lblRental.setText(String.valueOf(contract.getIncome()) + " VNĐ");
+                           String status = contract.getStatus();
+                           if(status.equals("active")){
+                                lblStatus.setForeground(new Color(76, 175, 80));
+                                lblStatus.setText("Còn hạn");
+                           }
+                           else{
+                                lblStatus.setForeground(new Color(255, 193, 7));
+                                lblStatus.setText("Sắp hết hạn");
+                           }
                        } else {
                            JOptionPane.showMessageDialog(null, "Không tìm thấy hợp đồng cho khách này!");
                        }
@@ -106,6 +115,7 @@ public class TenantView extends javax.swing.JFrame {
           lblStartDate.setText("");
           lblEndDate.setText("");
           lblRental.setText("");
+          lblStatus.setText("");
       }
 
 
@@ -151,6 +161,8 @@ public class TenantView extends javax.swing.JFrame {
           lblStartDate = new javax.swing.JLabel();
           lblEndDate = new javax.swing.JLabel();
           lblRental = new javax.swing.JLabel();
+          jLabel21 = new javax.swing.JLabel();
+          lblStatus = new javax.swing.JLabel();
           jPanel2 = new javax.swing.JPanel();
           jScrollPane1 = new javax.swing.JScrollPane();
           tableTenant = new javax.swing.JTable();
@@ -225,10 +237,10 @@ public class TenantView extends javax.swing.JFrame {
           lblContractId.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
           jLabel22.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-          jLabel22.setText("AD");
+          jLabel22.setText("ADMIN");
 
           jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-          jLabel23.setText("0363636363");
+          jLabel23.setText("0999888777");
 
           jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
           jLabel24.setText("adminTTTM@gmail.com");
@@ -249,6 +261,11 @@ public class TenantView extends javax.swing.JFrame {
 
           lblRental.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+          jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+          jLabel21.setText("Trạng thái:");
+
+          lblStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+
           javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
           jPanel1.setLayout(jPanel1Layout);
           jPanel1Layout.setHorizontalGroup(
@@ -264,78 +281,84 @@ public class TenantView extends javax.swing.JFrame {
                               .addComponent(jLabel4)))
                     .addGap(0, 54, Short.MAX_VALUE))
                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                         .addGroup(jPanel1Layout.createSequentialGroup()
-                              .addGap(164, 164, 164)
-                              .addComponent(jLabel5))
-                         .addGroup(jPanel1Layout.createSequentialGroup()
-                              .addGap(83, 83, 83)
-                              .addComponent(jLabel6))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                              .addGroup(jPanel1Layout.createSequentialGroup()
+                                   .addGap(164, 164, 164)
+                                   .addComponent(jLabel5))
+                              .addGroup(jPanel1Layout.createSequentialGroup()
+                                   .addGap(83, 83, 83)
+                                   .addComponent(jLabel6))
+                              .addGroup(jPanel1Layout.createSequentialGroup()
+                                   .addContainerGap()
+                                   .addComponent(jLabel8)
+                                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                   .addComponent(jLabel22))
+                              .addGroup(jPanel1Layout.createSequentialGroup()
+                                   .addContainerGap()
+                                   .addComponent(jLabel9)
+                                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                   .addComponent(jLabel23))
+                              .addGroup(jPanel1Layout.createSequentialGroup()
+                                   .addContainerGap()
+                                   .addComponent(jLabel10)
+                                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                   .addComponent(jLabel24))
+                              .addGroup(jPanel1Layout.createSequentialGroup()
+                                   .addContainerGap()
+                                   .addComponent(jLabel18)
+                                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                   .addComponent(lblEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                              .addGroup(jPanel1Layout.createSequentialGroup()
+                                   .addContainerGap()
+                                   .addComponent(jLabel19)
+                                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                   .addComponent(lblRental, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                              .addGroup(jPanel1Layout.createSequentialGroup()
+                                   .addGap(30, 30, 30)
+                                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                             .addComponent(jLabel20)
+                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                             .addComponent(lblContractId, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel7)))
+                              .addGroup(jPanel1Layout.createSequentialGroup()
+                                   .addContainerGap()
+                                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                             .addComponent(jLabel15)
+                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                             .addComponent(lblShopName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                             .addComponent(jLabel14)
+                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                             .addComponent(lblEmailTenant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                             .addComponent(jLabel13)
+                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                             .addComponent(lblSdtTenant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                  .addComponent(jLabel11)
+                                                  .addComponent(jLabel12))
+                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                             .addComponent(lblTenantName, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                              .addGroup(jPanel1Layout.createSequentialGroup()
+                                   .addContainerGap()
+                                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                             .addComponent(jLabel16)
+                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                             .addComponent(lblArea, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                             .addComponent(jLabel17)
+                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                             .addComponent(lblStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                          .addGroup(jPanel1Layout.createSequentialGroup()
                               .addContainerGap()
-                              .addComponent(jLabel8)
-                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                              .addComponent(jLabel22))
-                         .addGroup(jPanel1Layout.createSequentialGroup()
-                              .addContainerGap()
-                              .addComponent(jLabel9)
-                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                              .addComponent(jLabel23))
-                         .addGroup(jPanel1Layout.createSequentialGroup()
-                              .addContainerGap()
-                              .addComponent(jLabel10)
-                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                              .addComponent(jLabel24))
-                         .addGroup(jPanel1Layout.createSequentialGroup()
-                              .addContainerGap()
-                              .addComponent(jLabel18)
-                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                              .addComponent(lblEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                         .addGroup(jPanel1Layout.createSequentialGroup()
-                              .addContainerGap()
-                              .addComponent(jLabel19)
-                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                              .addComponent(lblRental, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                         .addGroup(jPanel1Layout.createSequentialGroup()
-                              .addGap(30, 30, 30)
-                              .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                   .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel20)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblContractId, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                   .addComponent(jLabel7)))
-                         .addGroup(jPanel1Layout.createSequentialGroup()
-                              .addContainerGap()
-                              .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                   .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel15)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblShopName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                   .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel14)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblEmailTenant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                   .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel13)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblSdtTenant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                   .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                             .addComponent(jLabel11)
-                                             .addComponent(jLabel12))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblTenantName, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                         .addGroup(jPanel1Layout.createSequentialGroup()
-                              .addContainerGap()
-                              .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                   .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel16)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblArea, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                   .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel17)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblStartDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                              .addComponent(jLabel21)
+                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                              .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
           );
           jPanel1Layout.setVerticalGroup(
@@ -410,7 +433,11 @@ public class TenantView extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                          .addComponent(jLabel19)
                          .addComponent(lblRental, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(68, 68, 68))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                         .addComponent(jLabel21)
+                         .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(47, 47, 47))
           );
 
           jSplitPane1.setLeftComponent(jPanel1);
@@ -510,7 +537,7 @@ public class TenantView extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(35, 35, 35)
                     .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(113, Short.MAX_VALUE))
+                    .addContainerGap(121, Short.MAX_VALUE))
           );
 
           jSplitPane1.setRightComponent(jPanel2);
@@ -547,6 +574,7 @@ public class TenantView extends javax.swing.JFrame {
                     t.getPhone(), t.getEmail()
                });
           }
+          clearContractInfo();
      }//GEN-LAST:event_btnAllActionPerformed
 
      private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -570,6 +598,7 @@ public class TenantView extends javax.swing.JFrame {
            } catch (Exception ex) {
                JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin hợp lệ!");
           }
+          clearContractInfo();
      }//GEN-LAST:event_btnSearchActionPerformed
 
      /**
@@ -622,6 +651,7 @@ public class TenantView extends javax.swing.JFrame {
      private javax.swing.JLabel jLabel19;
      private javax.swing.JLabel jLabel2;
      private javax.swing.JLabel jLabel20;
+     private javax.swing.JLabel jLabel21;
      private javax.swing.JLabel jLabel22;
      private javax.swing.JLabel jLabel23;
      private javax.swing.JLabel jLabel24;
@@ -644,6 +674,7 @@ public class TenantView extends javax.swing.JFrame {
      private javax.swing.JLabel lblSdtTenant;
      private javax.swing.JLabel lblShopName;
      private javax.swing.JLabel lblStartDate;
+     private javax.swing.JLabel lblStatus;
      private javax.swing.JLabel lblTenantName;
      private javax.swing.JTable tableTenant;
      private javax.swing.JTextField txtSearch;

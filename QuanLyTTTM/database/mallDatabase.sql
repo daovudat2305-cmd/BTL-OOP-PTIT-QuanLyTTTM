@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `malldb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `malldb`;
 -- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: malldb
@@ -32,7 +30,7 @@ CREATE TABLE `account` (
   `role` enum('ADMIN','TENANT') COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +39,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1,'admin','123456','Administrator','ADMIN'),(2,'tenant1','12345','Dat','TENANT'),(12,'tenant23','123456','DaoDat','TENANT'),(14,'tenant36','123456','Dat vo tri','TENANT'),(18,'tenant12','123456','Đạt','TENANT');
+INSERT INTO `account` VALUES (1,'admin','123456','Administrator','ADMIN'),(2,'tenant1','12345','Dat','TENANT'),(23,'tenant10','123456','Test1','TENANT'),(24,'tenant11','123456','Test2','TENANT');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +66,7 @@ CREATE TABLE `contract` (
   PRIMARY KEY (`contract_id`),
   UNIQUE KEY `phone_UNIQUE` (`phone`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,8 +75,34 @@ CREATE TABLE `contract` (
 
 LOCK TABLES `contract` WRITE;
 /*!40000 ALTER TABLE `contract` DISABLE KEYS */;
-INSERT INTO `contract` VALUES (1,1,1,'Dat','0987654321','daodat23@gmail.com','GShop','Quần Áo','2025-10-10','2026-10-10',3600000.00,'active'),(13,23,4,'DaoDat','0234567891','dd@gmail.com','DDShop','Thực phẩm','2025-01-01','2026-01-01',600000.00,'active'),(15,36,7,'Dat vo tri','0123654789','datvt@gmail.com','VoTri Shop','Meme','2025-11-01','2026-03-03',900000.00,'active'),(22,12,3,'Đạt','0123456789','daovudat@gmail.com','Cửa hàng rau củ','Rau củ','2025-11-12','2026-11-11',3000000.00,'active');
+INSERT INTO `contract` VALUES (1,1,1,'Dat','0987654321','daodat23@gmail.com','GShop','Quần Áo','2025-10-10','2026-10-10',3600000.00,'active'),(29,10,3,'Test1','0101010101','test1@gmail.com','Test 1 Shop','Thực phẩm chức năng','2025-11-13','2025-12-12',1000000.00,'terminated'),(30,11,6,'Test2','0202020202','test2@gmail.com','Test 2 Shop','Đồ điện','2025-11-13','2026-05-12',2000000.00,'active');
 /*!40000 ALTER TABLE `contract` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `extend`
+--
+
+DROP TABLE IF EXISTS `extend`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `extend` (
+  `contract_id` int NOT NULL,
+  `status` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'no',
+  PRIMARY KEY (`contract_id`),
+  CONSTRAINT `extend_ibfk_1` FOREIGN KEY (`contract_id`) REFERENCES `contract` (`contract_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `extend_chk_1` CHECK ((`status` in (_utf8mb4'yes',_utf8mb4'no')))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `extend`
+--
+
+LOCK TABLES `extend` WRITE;
+/*!40000 ALTER TABLE `extend` DISABLE KEYS */;
+INSERT INTO `extend` VALUES (1,'no'),(29,'no'),(30,'no');
+/*!40000 ALTER TABLE `extend` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -106,7 +130,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES ('Áo choàng băng giá',2000.00,'C:\\Users\\Admin\\Pictures\\Saved Pictures\\tải xuống.jpg',1,''),('Giáp thống khổ',1940.00,'C:\\Users\\Admin\\Pictures\\Saved Pictures\\channels4_profile.jpg',1,'300 giáp, 1200 máu tối đa. Nội tại: Phàn lại 15% sát thương vật lý gánh chịu thành sát thuong phép lên mục tiêu'),('Giày du mục',700.00,'C:\\Users\\Admin\\Pictures\\Saved Pictures\\timthumb.jpg',1,'Tăng 60% tốc chạy và 20% tốc đánh. Nội tại: Đánh thường hồi 20 máu'),('meo vo tri',8000.00,'C:\\Users\\Admin\\Pictures\\Saved Pictures\\z6308942558062_88fbcdf71f8f1bfce5882b491a207ea0.jpg',7,'mot con meo');
+INSERT INTO `product` VALUES ('Áo choàng băng giá',12000.00,'C:\\Users\\Admin\\Pictures\\Saved Pictures\\tải xuống.jpg',1,''),('Giáp thống khổ',1940.00,'C:\\Users\\Admin\\Pictures\\Saved Pictures\\channels4_profile.jpg',1,'300 giáp, 1200 máu tối đa. Nội tại: Phàn lại 15% sát thương vật lý gánh chịu thành sát thuong phép lên mục tiêu'),('Giày du mục',700.00,'C:\\Users\\Admin\\Pictures\\Saved Pictures\\timthumb.jpg',1,'Tăng 60% tốc chạy và 20% tốc đánh. Nội tại: Đánh thường hồi 20 máu');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,7 +161,7 @@ CREATE TABLE `shop` (
 
 LOCK TABLES `shop` WRITE;
 /*!40000 ALTER TABLE `shop` DISABLE KEYS */;
-INSERT INTO `shop` VALUES (1,'GShop','Quần Áo','Khu X','Đang thuê',1,1),(2,NULL,NULL,'Khu A1','Trống',NULL,NULL),(3,'Cửa hàng rau củ','Rau củ','Khu A2','Đang thuê',12,22),(4,'DDShop','Thực phẩm','Khu B1','Đang thuê',23,13),(5,NULL,NULL,'Khu B2','Trống',NULL,NULL),(6,NULL,NULL,'Khu C1','Trống',NULL,NULL),(7,'VoTri Shop','Meme','Khu C2','Đang thuê',36,15);
+INSERT INTO `shop` VALUES (1,'GShop','Quần Áo','Khu X','Đang thuê',1,1),(2,NULL,NULL,'Khu A1','Trống',NULL,NULL),(3,'Test 1 Shop','Thực phẩm chức năng','Khu A2','Đang thuê',10,29),(4,NULL,NULL,'Khu B1','Trống',NULL,NULL),(5,NULL,NULL,'Khu B2','Trống',NULL,NULL),(6,'Test 2 Shop','Đồ điện','Khu C1','Đang thuê',11,30),(7,NULL,NULL,'Khu C2','Trống',NULL,NULL);
 /*!40000 ALTER TABLE `shop` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +196,7 @@ CREATE TABLE `tenant` (
 
 LOCK TABLES `tenant` WRITE;
 /*!40000 ALTER TABLE `tenant` DISABLE KEYS */;
-INSERT INTO `tenant` VALUES (1,'Dat','0987654321','daodat2305@gmail.com',1,1,'tenant1','123456'),(12,'Đạt','0123456789','daovudat@gmail.com',22,3,'tenant12','123456'),(23,'DaoDat','0234567891','dd@gmail.com',13,4,'tenant23','123456'),(36,'Dat vo tri','0123654789','datvt@gmail.com',15,7,'tenant36','123456');
+INSERT INTO `tenant` VALUES (1,'Dat','0987654321','daodat2305@gmail.com',1,1,'tenant1','123456'),(10,'Test1','0101010101','test1@gmail.com',29,3,'tenant10','123456'),(11,'Test2','0202020202','test2@gmail.com',30,6,'tenant11','123456');
 /*!40000 ALTER TABLE `tenant` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -185,4 +209,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-11 22:38:40
+-- Dump completed on 2025-11-12 15:56:35

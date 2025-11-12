@@ -3,9 +3,12 @@ package View;
 
 import Controller.ShopController;
 import Controller.TenantController;
+import Model.Contract;
 import Model.Session;
 import Model.Shop;
 import Model.Tenant;
+import Model.ContractDAO;
+import java.awt.Color;
 import java.awt.Frame;
 import javax.swing.JOptionPane;
 
@@ -15,6 +18,7 @@ public class InfoTenantDialog extends javax.swing.JDialog {
 
      private TenantController tenantController = new TenantController();
      private ShopController shopController = new ShopController();
+     private ContractDAO contractDAO = new ContractDAO();
      private int tenantId;
      
      public InfoTenantDialog(java.awt.Frame parent, boolean modal) {
@@ -44,6 +48,20 @@ public class InfoTenantDialog extends javax.swing.JDialog {
                lblShop.setText("Chưa thuê");
                lblArea.setText("Chưa thuê");
           }
+          
+          int contractId = curTenant.getContractId();
+          Contract c = ContractDAO.findById(contractId);
+          if(c!=null){
+               String status = c.getStatus();
+               if(status.equals("active")){
+                    lblStatus.setForeground(new Color(76, 175, 80));
+                    lblStatus.setText("Còn hạn");
+               }
+               else{
+                    lblStatus.setForeground(new Color(255, 193, 7));
+                    lblStatus.setText("Sắp hết hạn");
+               }
+          }
      }
      
      /**
@@ -72,6 +90,8 @@ public class InfoTenantDialog extends javax.swing.JDialog {
           lblName = new javax.swing.JLabel();
           jLabel2 = new javax.swing.JLabel();
           btnUpdate = new custom.Button();
+          jLabel9 = new javax.swing.JLabel();
+          lblStatus = new javax.swing.JLabel();
 
           setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -140,6 +160,11 @@ public class InfoTenantDialog extends javax.swing.JDialog {
                }
           });
 
+          jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+          jLabel9.setText("Trạng thái hợp đồng:");
+
+          lblStatus.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+
           javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
           getContentPane().setLayout(layout);
           layout.setHorizontalGroup(
@@ -147,47 +172,51 @@ public class InfoTenantDialog extends javax.swing.JDialog {
                .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                          .addGroup(layout.createSequentialGroup()
-                              .addGap(129, 129, 129)
-                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                   .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblShop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(layout.createSequentialGroup()
-                                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                             .addComponent(lblSDT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGroup(layout.createSequentialGroup()
-                                             .addComponent(jLabel5)
-                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                             .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addComponent(jLabel7)
-                                        .addGroup(layout.createSequentialGroup()
-                                             .addComponent(jLabel2)
-                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                             .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                             .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                         .addGroup(layout.createSequentialGroup()
                               .addComponent(jLabel8)
-                              .addGap(166, 166, 166)
-                              .addComponent(jLabel1))
-                         .addGroup(layout.createSequentialGroup()
                               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(149, 149, 149)
-                                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(63, 63, 63)
-                                        .addComponent(btnHopDong, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                   .addGroup(layout.createSequentialGroup()
-                                        .addGap(208, 208, 208)
-                                        .addComponent(lblArea, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(166, 166, 166)
+                                        .addComponent(jLabel1))
+                                   .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                             .addGroup(layout.createSequentialGroup()
+                                                  .addComponent(jLabel6)
+                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                  .addComponent(lblShop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                  .addGroup(layout.createSequentialGroup()
+                                                       .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                       .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                       .addComponent(lblSDT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                  .addGroup(layout.createSequentialGroup()
+                                                       .addComponent(jLabel5)
+                                                       .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                       .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                  .addComponent(jLabel7)
+                                                  .addGroup(layout.createSequentialGroup()
+                                                       .addComponent(jLabel2)
+                                                       .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                       .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                  .addGroup(layout.createSequentialGroup()
+                                                       .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                       .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                       .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                             .addGroup(layout.createSequentialGroup()
+                                                  .addGap(79, 79, 79)
+                                                  .addComponent(lblArea, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                             .addGroup(layout.createSequentialGroup()
+                                                  .addComponent(jLabel9)
+                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                  .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                         .addGroup(layout.createSequentialGroup()
+                              .addGap(149, 149, 149)
+                              .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                              .addGap(63, 63, 63)
+                              .addComponent(btnHopDong, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                               .addGap(39, 39, 39)
                               .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(117, Short.MAX_VALUE))
+                    .addContainerGap(125, Short.MAX_VALUE))
           );
           layout.setVerticalGroup(
                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,33 +225,37 @@ public class InfoTenantDialog extends javax.swing.JDialog {
                          .addComponent(jLabel8)
                          .addGroup(layout.createSequentialGroup()
                               .addContainerGap()
-                              .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                         .addGroup(layout.createSequentialGroup()
-                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                   .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                   .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                              .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                               .addGap(18, 18, 18)
-                              .addComponent(jLabel3))
-                         .addComponent(lblName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
+                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                   .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                             .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel3))
+                                   .addComponent(lblName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                              .addGap(18, 18, 18)
+                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                   .addComponent(lblSDT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                   .addComponent(jLabel4))
+                              .addGap(18, 18, 18)
+                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                   .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                   .addComponent(jLabel5))
+                              .addGap(18, 18, 18)
+                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                   .addComponent(jLabel6)
+                                   .addComponent(lblShop, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                              .addGap(18, 18, 18)
+                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                   .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                   .addComponent(lblArea, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                         .addComponent(lblSDT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                         .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(18, 18, 18)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                         .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                         .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(18, 18, 18)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                         .addComponent(jLabel6)
-                         .addComponent(lblShop, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                         .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                         .addComponent(lblArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(18, 18, 18)
+                         .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                         .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                          .addComponent(btnHopDong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                          .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -309,11 +342,13 @@ public class InfoTenantDialog extends javax.swing.JDialog {
      private javax.swing.JLabel jLabel6;
      private javax.swing.JLabel jLabel7;
      private javax.swing.JLabel jLabel8;
+     private javax.swing.JLabel jLabel9;
      private javax.swing.JLabel lblArea;
      private javax.swing.JLabel lblEmail;
      private javax.swing.JLabel lblId;
      private javax.swing.JLabel lblName;
      private javax.swing.JLabel lblSDT;
      private javax.swing.JLabel lblShop;
+     private javax.swing.JLabel lblStatus;
      // End of variables declaration//GEN-END:variables
 }

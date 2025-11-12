@@ -3,10 +3,14 @@ package View;
 
 import Model.Contract;
 import Model.ContractDAO;
+import Model.Extend;
 import Controller.ContractController;
+import Controller.ExtendController;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.*;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,13 +20,23 @@ public class ExtendContractDialog extends javax.swing.JDialog {
 
      
      private ContractController contractController = new ContractController();
+     private ExtendController extendController = new ExtendController();
+     
+     DefaultTableModel model;
      
      public ExtendContractDialog(java.awt.Frame parent, boolean modal) {
           super(parent, modal);
           initComponents();
           
+          //chỉnh đọ rộng cột
+          tableExtend.getColumnModel().getColumn(0).setPreferredWidth(100);
+          tableExtend.getColumnModel().getColumn(1).setPreferredWidth(180);
+          
           setLocationRelativeTo(null);
           initComboDate();
+          
+          model = (DefaultTableModel) tableExtend.getModel();
+          loadData();
      }
 
      private void initComboDate(){
@@ -47,6 +61,19 @@ public class ExtendContractDialog extends javax.swing.JDialog {
          cboYear.setSelectedItem(String.valueOf(currentYear));
     }
      
+     private void loadData(){
+          model.setRowCount(0);
+          List<Extend> lst = extendController.getListRequirements();
+          for(Extend extend : lst){
+               Contract contract = ContractDAO.findById(extend.getContractId());
+               
+               model.addRow(new Object[]{
+                   extend.getContractId(),
+                   contract.getEndDate()
+               });
+          }
+     }
+     
      /**
       * This method is called from within the constructor to initialize the
       * form. WARNING: Do NOT modify this code. The content of this method is
@@ -67,6 +94,9 @@ public class ExtendContractDialog extends javax.swing.JDialog {
           cboDay = new javax.swing.JComboBox<>();
           cboMonth = new javax.swing.JComboBox<>();
           cboYear = new javax.swing.JComboBox<>();
+          jScrollPane1 = new javax.swing.JScrollPane();
+          tableExtend = new javax.swing.JTable();
+          jLabel6 = new javax.swing.JLabel();
 
           setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -106,41 +136,74 @@ public class ExtendContractDialog extends javax.swing.JDialog {
 
           txtContractId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+          tableExtend.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+          tableExtend.setModel(new javax.swing.table.DefaultTableModel(
+               new Object [][] {
+                    {null, null},
+                    {null, null},
+                    {null, null}
+               },
+               new String [] {
+                    "Mã hợp đồng", "Ngày hết hạn"
+               }
+          ) {
+               boolean[] canEdit = new boolean [] {
+                    false, false
+               };
+
+               public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+               }
+          });
+          tableExtend.setRowHeight(40);
+          jScrollPane1.setViewportView(tableExtend);
+
+          jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+          jLabel6.setText("Danh sách yêu cầu gia hạn");
+
           javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
           getContentPane().setLayout(layout);
           layout.setHorizontalGroup(
                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(btnSava, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(66, 66, 66))
                .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                          .addGroup(layout.createSequentialGroup()
                               .addComponent(jLabel1)
-                              .addGap(51, 51, 51)
+                              .addGap(154, 154, 154)
+                              .addComponent(jLabel2))
+                         .addGroup(layout.createSequentialGroup()
+                              .addGap(93, 93, 93)
                               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cboDay, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cboMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(23, 23, 23)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                             .addGroup(layout.createSequentialGroup()
+                                                  .addComponent(jLabel5)
+                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                  .addComponent(cboDay, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                  .addComponent(cboMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                             .addGroup(layout.createSequentialGroup()
+                                                  .addComponent(jLabel4)
+                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                  .addComponent(txtContractId, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(cboYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                   .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtContractId, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                   .addGroup(layout.createSequentialGroup()
-                                        .addGap(37, 37, 37)
-                                        .addComponent(jLabel2))))
-                         .addGroup(layout.createSequentialGroup()
-                              .addGap(83, 83, 83)
-                              .addComponent(jLabel3)))
-                    .addContainerGap(85, Short.MAX_VALUE))
+                                   .addComponent(jLabel3))))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(107, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                         .addComponent(jLabel6)
+                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                              .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                   .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addGap(18, 18, 18)
+                                   .addComponent(btnSava, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addGap(66, 66, 66))
+                              .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                   .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addGap(89, 89, 89)))))
           );
           layout.setVerticalGroup(
                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,9 +211,13 @@ public class ExtendContractDialog extends javax.swing.JDialog {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                          .addComponent(jLabel1)
                          .addGroup(layout.createSequentialGroup()
-                              .addGap(16, 16, 16)
+                              .addGap(17, 17, 17)
                               .addComponent(jLabel2)))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                    .addComponent(jLabel6)
                     .addGap(18, 18, 18)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(jLabel3)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -162,7 +229,7 @@ public class ExtendContractDialog extends javax.swing.JDialog {
                          .addComponent(cboDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                          .addComponent(cboMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                          .addComponent(cboYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                    .addGap(29, 29, 29)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                          .addComponent(btnSava, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                          .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -180,6 +247,7 @@ public class ExtendContractDialog extends javax.swing.JDialog {
           try {
                int contractId = Integer.parseInt(txtContractId.getText());
                Contract c = ContractDAO.findById(contractId);
+               Extend e = extendController.getById(contractId);
                
                if (c != null) {
                    int confirm = JOptionPane.showConfirmDialog(
@@ -196,9 +264,13 @@ public class ExtendContractDialog extends javax.swing.JDialog {
                          if(giahan.before(c.getEndDate())){
                               JOptionPane.showMessageDialog(this, "Gia hạn phải sau ngày kết thúc!");
                          }
+                         else if(e.getStatus().equals("no")){
+                              JOptionPane.showMessageDialog(this, "Hợp đồng này chưa có yêu cầu gia hạn!");
+                         }
                          else{
                               contractController.extendContract(contractId, giahan);
-
+                              extendController.setStatusById(contractId, "no");
+                              
                               JOptionPane.showMessageDialog(this, "Gia hạn thành công!");
                          }
                     }
@@ -210,6 +282,7 @@ public class ExtendContractDialog extends javax.swing.JDialog {
                  else JOptionPane.showMessageDialog(this, "Gia hạn thất bại!");   
                  txtContractId.setText("");
                  initComboDate();
+                 loadData();
                }
                else{
                    JOptionPane.showMessageDialog(this, "Không tìm thấy hợp đồng!");
@@ -272,6 +345,9 @@ public class ExtendContractDialog extends javax.swing.JDialog {
      private javax.swing.JLabel jLabel3;
      private javax.swing.JLabel jLabel4;
      private javax.swing.JLabel jLabel5;
+     private javax.swing.JLabel jLabel6;
+     private javax.swing.JScrollPane jScrollPane1;
+     private javax.swing.JTable tableExtend;
      private javax.swing.JTextField txtContractId;
      // End of variables declaration//GEN-END:variables
 }
