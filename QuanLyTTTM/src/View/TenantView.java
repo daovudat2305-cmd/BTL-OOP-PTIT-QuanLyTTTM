@@ -480,6 +480,8 @@ public class TenantView extends javax.swing.JFrame {
           jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
           jLabel2.setText("Nhập thông tin");
 
+          txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
           btnSearch.setBackground(new java.awt.Color(0, 153, 255));
           btnSearch.setForeground(new java.awt.Color(255, 255, 255));
           btnSearch.setText("Tìm kiếm");
@@ -537,7 +539,7 @@ public class TenantView extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(35, 35, 35)
                     .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(121, Short.MAX_VALUE))
+                    .addContainerGap(118, Short.MAX_VALUE))
           );
 
           jSplitPane1.setRightComponent(jPanel2);

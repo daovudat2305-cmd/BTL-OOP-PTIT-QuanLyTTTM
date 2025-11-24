@@ -218,6 +218,14 @@ public class AddProductDialog extends javax.swing.JDialog {
                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên sản phẩm!");
                return;
             }
+            else{
+                String name = txtName.getText().trim();
+                ProductController controller = new ProductController();
+                if(controller.existedProduct(name, shopId)){
+                     JOptionPane.showMessageDialog(this, "Sản phẩm đã tồn tại!");
+                     return;
+                }
+            }
             
             if (txtPrice.getText().trim().isEmpty()) {
                JOptionPane.showMessageDialog(this, "Vui lòng nhập giá sản phẩm!");

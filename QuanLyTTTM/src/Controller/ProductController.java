@@ -35,4 +35,8 @@ public class ProductController {
      public boolean deleteAllProductById(int shopId){
           return productDAO.deleteAllProductById(shopId);
      }
+     
+     public boolean existedProduct(String name, int shopId){
+          return productDAO.existedProduct(name, shopId);
+     }
 }

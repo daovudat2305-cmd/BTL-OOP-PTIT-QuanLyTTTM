@@ -69,6 +69,21 @@ public class ProductDAO {
           return false;
      }
      
+     //kiểm tra xem tên sản phẩm đã có chưa
+     public boolean existedProduct(String name, int shopId){
+          try(Connection conn = DBConnection.getConnection()) {
+               String sql = "SELECT * FROM product WHERE shop_id=? and name=?";
+               PreparedStatement stmt = conn.prepareStatement(sql);
+               stmt.setInt(1, shopId);
+               stmt.setString(2, name);
+               ResultSet rs = stmt.executeQuery();
+               return rs.next();
+          } catch (Exception e) {
+               e.printStackTrace();
+          }
+          return false;
+     }
+     
      public boolean deleteProduct(int shopId, String name){
           try (Connection conn = DBConnection.getConnection()){
                String sql = "DELETE FROM product WHERE shop_id=? AND name=?";

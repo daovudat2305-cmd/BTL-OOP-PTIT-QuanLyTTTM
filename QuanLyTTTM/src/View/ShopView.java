@@ -74,21 +74,21 @@ public class ShopView extends javax.swing.JFrame {
 
           jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
           jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-          jLabel3.setText("QUẢN LÝ SHOP");
+          jLabel3.setText("CÁC CỬA HÀNG");
           jLabel3.setToolTipText("");
           jLabel3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
           jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-          jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+          jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
           jLabel1.setForeground(new java.awt.Color(51, 51, 51));
           jLabel1.setText("Nhập Shop ID");
 
-          txtSearchId.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+          txtSearchId.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
 
           btnSearch.setBackground(new java.awt.Color(0, 153, 255));
           btnSearch.setForeground(new java.awt.Color(255, 255, 255));
           btnSearch.setText("Tìm Kiếm");
-          btnSearch.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+          btnSearch.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
           btnSearch.addActionListener(new java.awt.event.ActionListener() {
                public void actionPerformed(java.awt.event.ActionEvent evt) {
                     btnSearchActionPerformed(evt);
@@ -129,7 +129,7 @@ public class ShopView extends javax.swing.JFrame {
           btnViewProduct.setBackground(new java.awt.Color(0, 153, 255));
           btnViewProduct.setForeground(new java.awt.Color(255, 255, 255));
           btnViewProduct.setText("Xem Sản Phẩm");
-          btnViewProduct.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+          btnViewProduct.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
           btnViewProduct.addActionListener(new java.awt.event.ActionListener() {
                public void actionPerformed(java.awt.event.ActionEvent evt) {
                     btnViewProductActionPerformed(evt);
@@ -139,7 +139,7 @@ public class ShopView extends javax.swing.JFrame {
           btnExit.setBackground(new java.awt.Color(0, 153, 255));
           btnExit.setForeground(new java.awt.Color(255, 255, 255));
           btnExit.setText("Thoát");
-          btnExit.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+          btnExit.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
           btnExit.addActionListener(new java.awt.event.ActionListener() {
                public void actionPerformed(java.awt.event.ActionEvent evt) {
                     btnExitActionPerformed(evt);
@@ -170,7 +170,7 @@ public class ShopView extends javax.swing.JFrame {
                     .addGap(98, 98, 98))
                .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                         .addGroup(jPanel1Layout.createSequentialGroup()
                               .addGap(69, 69, 69)
                               .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                               .addGap(18, 18, 18)
@@ -198,7 +198,7 @@ public class ShopView extends javax.swing.JFrame {
                               .addGap(35, 35, 35)
                               .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                    .addComponent(btnAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                   .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                   .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                    .addComponent(txtSearchId, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                          .addGroup(jPanel1Layout.createSequentialGroup()
@@ -210,7 +210,7 @@ public class ShopView extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                          .addComponent(btnViewProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                          .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(134, Short.MAX_VALUE))
+                    .addContainerGap(132, Short.MAX_VALUE))
           );
 
           background1.add(jPanel1, "card2");

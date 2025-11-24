@@ -78,6 +78,7 @@ public class LoginView extends javax.swing.JFrame {
           jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
           jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/resources/logo.png"))); // NOI18N
 
+          textUser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
           textUser.setLabelText("User Name");
           textUser.addActionListener(new java.awt.event.ActionListener() {
                public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,6 +86,7 @@ public class LoginView extends javax.swing.JFrame {
                }
           });
 
+          textPass.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
           textPass.setLabelText("Password");
           textPass.addActionListener(new java.awt.event.ActionListener() {
                public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,7 +146,7 @@ public class LoginView extends javax.swing.JFrame {
                     .addComponent(textUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(textPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cmdsignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addComponent(btnQuit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

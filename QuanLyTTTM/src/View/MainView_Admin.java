@@ -24,12 +24,12 @@ public class MainView_Admin extends javax.swing.JFrame {
           JMenu menu = new JMenu("Menu");
           menu.setFont(new Font("Segoe UI", Font.BOLD, 15));   // chỉnh font to hơn
           menu.setPreferredSize(new Dimension(100, 40));       // chỉnh kích thước
-          JMenuItem homeItem = new JMenuItem("Home");
-          JMenuItem shopItem = new JMenuItem("Shop");
+          JMenuItem homeItem = new JMenuItem("Trang chủ");
+          JMenuItem shopItem = new JMenuItem("Quản lý cửa hàng");
           JMenuItem tenantItem = new JMenuItem("Thông tin khách thuê và hợp đồng");
           JMenuItem contractItem = new JMenuItem("Quản lý hợp đồng");
           JMenuItem revenueItem = new JMenuItem("Quản lý doanh thu");
-          JMenuItem mapItem = new JMenuItem("Sơ đồ");
+          JMenuItem mapItem = new JMenuItem("Sơ đồ trung tâm");
 
           homeItem.setFont(new Font("Segoe UI", Font.BOLD, 15));
           shopItem.setFont(new Font("Segoe UI", Font.BOLD, 15));

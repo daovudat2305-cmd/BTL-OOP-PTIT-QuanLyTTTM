@@ -281,7 +281,7 @@ public class ExtendContractDialog extends javax.swing.JDialog {
                  }
                  else JOptionPane.showMessageDialog(this, "Gia hạn thất bại!");   
                  txtContractId.setText("");
-                 initComboDate();
+//                 initComboDate();
                  loadData();
                }
                else{
